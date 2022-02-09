@@ -26,6 +26,7 @@
 						descending: false
 					}
 				}"
+
 				noDataText="{worklistView>/tableNoDataText}"
 				busyIndicatorDelay="{worklistView>/tableBusyDelay}"
 				growing="true"
@@ -46,7 +47,6 @@
 						</SearchField>
 					</Toolbar>
 				</headerToolbar>
-
 				<columns>
 					<Column id="nameColumn">
 						<Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>
@@ -76,6 +76,7 @@
 				
 				<items>
 					<ColumnListItem
+						highlight="{path: 'CreatedBy', formatter:'.formatter.Highlight'}"
 						type="Navigation"
 						press="onPress">
 						<cells>
@@ -86,7 +87,7 @@
 							<Text text="{ModifiedBy}"/>
 							<Text text="{GroupID}"/>
 							<Text text="{SubGroupID}"/>
-							<Text text="{Created}"/>
+							<Text text="{path: 'Created', type: 'sap.ui.model.type.DateTime', formatOptions: { pattern: 'HH:mm dd/MM/yyyy'}}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

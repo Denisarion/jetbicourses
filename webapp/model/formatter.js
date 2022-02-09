@@ -15,8 +15,12 @@ sap.ui.define([
 					return "";
 				}
 				return parseFloat(sValue).toFixed(2);
+			},
+			Highlight : function(CreatedBy) {
+				if(CreatedBy === "D1B1000034") {
+					return "Success";
+				}
 			}
-
 		};
 
 	}

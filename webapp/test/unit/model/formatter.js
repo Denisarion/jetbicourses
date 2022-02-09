@@ -4,6 +4,7 @@ sap.ui.define([
 		"zjblesson/Worklist/model/formatter"
 	], function (formatter) {
 		"use strict";
+		
 
 		QUnit.module("Number unit");
 
@@ -14,6 +15,7 @@ sap.ui.define([
 			// Assert
 			assert.strictEqual(fNumber, fExpectedNumber, "The rounding was correct");
 		}
+		
 
 		QUnit.test("Should round down a 3 digit number", function (assert) {
 			numberUnitValueTestCase.call(this, assert, "3.123", "3.12");
@@ -36,4 +38,5 @@ sap.ui.define([
 		});
 
 	}
+	
 );
