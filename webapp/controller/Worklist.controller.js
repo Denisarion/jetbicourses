@@ -253,7 +253,7 @@ sap.ui.define([
 		},
 		
 		onPressRefresh: function(){
-			this.getModel().refresh(); 
+			this.getModel().refresh(true); 
 		},
 		
 		onPressReset: function(){
