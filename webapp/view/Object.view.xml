@@ -1,30 +1,29 @@
-<mvc:View
-	controllerName="zjblesson.Worklist.controller.Object"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.f.semantic">
-
-	<semantic:SemanticPage
-		id="page"
-		headerPinnable="false"
-		toggleHeaderOnTitleClick="false"
-		busy="{objectView>/busy}"
+<mvc:View controllerName="zjblesson.Worklist.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
+	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
-
 		<semantic:titleHeading>
-			<Title text="{MaterialText}" />
+			<VBox>
+			<Title text="{json>/MaterialText}" visible="{= !${objectView>/editMode}}"/>
+			<Input value="{json>/MaterialText}" visible="{jbjectView>/editMode}"/>
+			</VBox>		
 		</semantic:titleHeading>
-
-		<semantic:headerContent>
-			<ObjectNumber
-			/>
-		</semantic:headerContent>
-
+		<semantic:content>
+			<VBox visible = "true">
+				<Title visible="{= !${objectView>/editMode}}" text="{= ${json>/MaterialDescription} === null ? 'No Description' : ${json>/MaterialDescription}}"/>
+				<Input value="{json>/MaterialDescriprtion}" visible="{objectView>editMode}"/>
+				<Title visible="{= !${objectView>/editMode}}" text="{= ${json>/GroupID} === null ? 'No GroupID' : ${json>/GroupID}}"/>
+				<Input value="{json>/GroupID}" visible="{objectView>editMode}"/>
+				<Title visible="{= !${objectView>/editMode}}" text="{= ${json>/SubGroupID} === null ? 'No SubGroupID' : ${json>/SubGroupID}}"/>
+				<Input value="{json>/SubGroupID}" visible="{objectView>editMode}"/>
+			</VBox>
+		</semantic:content>
+		<semantic:titleCustomTextActions>
+			<Button visible="{= !${objectView>/editMode}}" text="Edit" press="onPressEdit"/>
+			<Button visible="{objectView>/editMode}" text="Save" press="onPressSave"/>
+			<Button visible="{objectView>/editMode}" text="Cancel" press="onPressCancel"/>
+		</semantic:titleCustomTextActions>
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
 		</semantic:sendEmailAction>
-
-
 	</semantic:SemanticPage>
-
 </mvc:View>

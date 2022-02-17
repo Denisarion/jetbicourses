@@ -120,10 +120,10 @@ sap.ui.define([
 							width: "100%"
 						}),
 						new sap.m.Label({
-							text: "subGroupID",
-							labelFor: "suGroupIDCreate"
+							text: "SubGroupID",
+							labelFor: "SuGroupIDCreate"
 						}),
-						new sap.m.Input("subGroupIDCreate", {
+						new sap.m.Input("SubGroupIDCreate", {
 							width: "100%"
 						})
 					],
@@ -141,6 +141,7 @@ sap.ui.define([
 							this.oDialogCreate.close();
 							this.oDialogCreate.getContent()[1].setValue("");
 							this.oDialogCreate.getContent()[3].setValue("");
+							this.oDialogCreate.getContent()[5].setValue("");
 						}.bind(this)
 					})
 
@@ -155,6 +156,7 @@ sap.ui.define([
 				MaterialID: '',
 				MaterialText: this.oDialogCreate.getContent()[1].getValue(),
 				GroupID: this.oDialogCreate.getContent()[3].getValue(),
+				SubGroupID: this.oDialogCreate.getContent()[5].setValue(),
 				Version: "A",
 				Language: 'RU'
 			};
@@ -168,6 +170,7 @@ sap.ui.define([
 			});
 			this.oDialogCreate.getContent()[1].setValue("");
 			this.oDialogCreate.getContent()[3].setValue("");
+			this.oDialogCreate.getContent()[5].setValue("");
 		},
 
 		onPressEdit: function(oEvent){
@@ -192,10 +195,10 @@ sap.ui.define([
 							width: "100%"
 						}),
 						new sap.m.Label({
-							text: "subGroupID",
-							labelFor: "suGroupIDEdit"
+							text: "SubGroupID",
+							labelFor: "SuGroupIDEdit"
 						}),
-						new sap.m.Input("subGroupIDEdit", {
+						new sap.m.Input("SubGroupIDEdit", {
 							width: "100%"
 						})
 					],
@@ -203,8 +206,8 @@ sap.ui.define([
 						type: "Emphasized",
 						text: "Edit",
 						press: function() {
-							that._updateMaterial();
-							that.oDialogEdit.close();
+							this._updateMaterial();
+							this.oDialogEdit.close();
 						}.bind(this)
 					}),
 					endButton: new sap.m.Button({
@@ -213,6 +216,7 @@ sap.ui.define([
 							this.oDialogEdit.close();
 							this.oDialogEdit.getContent()[1].setValue("");
 							this.oDialogEdit.getContent()[3].setValue("");
+							this.oDialogEdit.getContent()[5].setValue("");
 						}.bind(this)
 					})
 			}).addStyleClass("sapUISizeCompact");
@@ -224,9 +228,11 @@ sap.ui.define([
 		},
 		
 		_updateMaterial: function(){
-			var sPath = this.oDialogCreate.getBindingContext().getPath();
-			that.getModel().update(sPath, {
-				MaterialText: this.oDialog.getContent()[1].getValue()
+			var sPath = this.oDialogEdit.getBindingContext().getPath();
+			this.getModel().update(sPath, {
+				MaterialText: this.oDialogEdit.getContent()[1].getValue(),
+				GroupID: this.oDialogEdit.getContent()[3].getValue(),
+				SubGroupID: this.oDialogEdit.getContent()[5].getValue()
 			}, {
 				success: function(e){
 					MessageToast.show("Success");
@@ -236,13 +242,26 @@ sap.ui.define([
 				}
 			
 			});
-			this.oDialogCreate.getContent()[1].setValue("");
-			this.oDialogCreate.getContent()[3].setValue("");
+			this.oDialogEdit.getContent()[1].setValue("");
+			this.oDialogEdit.getContent()[3].setValue("");
+			this.oDialogEdit.getContent()[5].setValue("");
 		},
 
 		onPressDelete: function(oEvent) {
 			var sPath = oEvent.getParameter("listItem").getBindingContext().getPath();
 			this.getModel().remove(sPath);
+		},
+		
+		onPressRefresh: function(){
+			this.getModel().refresh(); 
+		},
+		
+		onPressReset: function(){
+			this.getModel().resetChanges(); 
+		},
+		
+		onPressSubmit: function(){
+			this.getModel().submitChanges(); 
 		},
 		/**
 		 * Event handler for navigating back.

@@ -13,6 +13,9 @@
 						<ToolbarSpacer/>
 						<Button type="Emphasized" text="{i18n>tSayHello}" press="onPressSayHello" icon="sap-icon://globe"/>
 						<Button type="Ghost" text="{i18n>tCreate}" press="onPressCreate"/>
+						<Button type="Ghost" text="{i18n>tRefresh}" press="onPressRefresh"/>
+						<Button type="Ghost" text="{i18n>tReset}" press="onPressReset"/>
+						<Button type="Ghost" text="{i18n>tSubmit}" press="onPressSubmit"/>
 						<SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"></SearchField>
 					</Toolbar>
 				</headerToolbar>

@@ -3,12 +3,14 @@ sap.ui.define([
 		"zjblesson/Worklist/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
 		"sap/ui/core/routing/History",
-		"zjblesson/Worklist/model/formatter"
+		"zjblesson/Worklist/model/formatter",
+		"sap/m/MessageToast",
 	], function (
 		BaseController,
 		JSONModel,
 		History,
-		formatter
+		formatter,
+		MessageToast
 	) {
 		"use strict";
 
@@ -49,9 +51,48 @@ sap.ui.define([
 			/* =========================================================== */
 			/* event handlers                                              */
 			/* =========================================================== */
-
-
-			/**
+			setJsonModel: function(sObjectID){
+				this.getModel().read("/zjblessons_base_Materials('" + sObjectID + "')", {
+					success: function(oData){
+						this.setModel(new JSONModel({}), "json");
+						this.getModel("json").setData(oData);
+						this.getModel("objectView").setProperty("/elementalMaterial", Object.assign({}, oData));	
+					}.bind(this),
+					error: function(){
+						MessageToast.show("Error");
+					}
+				});
+			},
+			
+			onPressEdit: function(){
+				this.getModel("objectView").setProperty("/editMode", true);
+			},
+			onPressSave: function(){
+				this.getModel("objectView").setProperty("/editMode", false);
+				var oMaterial = this.getModel("json").getProperty("/");
+				this.getModel("objectView").setProperty("/elementalMaterial", Object.assign({}, oMaterial));
+				var sPath = "/zjblessons_base_Materials('" + oMaterial.MaterialID + "')";
+				this.getModel().update(sPath, {
+					MaterialText: oMaterial.MaterialText,
+					GroupID: oMaterial.GroupID,
+					SubGroupID: oMaterial.SubGroupID,
+					MaterialDescription: oMaterial.MaterialDescription
+					
+				}, {
+					success: function(e){
+						MessageToast.show("Success");
+					},
+					error: function(e){
+						MessageToast.show("ERROR");
+					}
+				});
+			},	
+			onPressCancel: function(){
+				this.getModel("objectView").setProperty("/editMode", false);
+				var oElementalMaterial = this.getModel("objectView").getProperty("/elementalMaterial");
+				this.getModel("json").setData(oElementalMaterial);
+			},
+			/**	
 			 * Event handler  for navigating back.
 			 * It there is a history entry we go one step back in the browser history
 			 * If not, it will replace the current entry of the browser history with the worklist route.
@@ -79,6 +120,7 @@ sap.ui.define([
 			 */
 			_onObjectMatched : function (oEvent) {
 				var sObjectId =  oEvent.getParameter("arguments").objectId;
+				this.setJsonModel(sObjectId);
 				this.getModel().metadataLoaded().then( function() {
 					var sObjectPath = this.getModel().createKey("zjblessons_base_Materials", {
 						MaterialID :  sObjectId
