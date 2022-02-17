@@ -174,79 +174,77 @@ sap.ui.define([
 		},
 
 		onPressEdit: function(oEvent){
-			if(!this.oDialogEdit){
-				this.oDialogEdit = new Dialog({
-					title: "Edit",
-					type: "Message",
-					contentWidth: "25rem",
-					content: [
-						new sap.m.Label({
-							text: "MaterialText",
-							labelFor: "MaterialTextEdit"
-						}),
-						new sap.m.Input("MaterialTextEdit", {
-							width: "100%"
-						}),
-						new sap.m.Label({
-							text: "GroupID",
-							labelFor: "GroupIDEdit"
-						}),
-						new sap.m.Input("GroupIDEdit", {
-							width: "100%"
-						}),
-						new sap.m.Label({
-							text: "SubGroupID",
-							labelFor: "SuGroupIDEdit"
-						}),
-						new sap.m.Input("SubGroupIDEdit", {
-							width: "100%"
-						})
-					],
-					beginButton: new sap.m.Button({
-						type: "Emphasized",
-						text: "Edit",
-						press: function() {
-							this._updateMaterial();
-							this.oDialogEdit.close();
-						}.bind(this)
-					}),
-					endButton: new sap.m.Button({
-						text: "Cancel",
-						press: function() {
-							this.oDialogEdit.close();
-							this.oDialogEdit.getContent()[1].setValue("");
-							this.oDialogEdit.getContent()[3].setValue("");
-							this.oDialogEdit.getContent()[5].setValue("");
-						}.bind(this)
-					})
-			}).addStyleClass("sapUISizeCompact");
-		
-			this.getView().addDependent(this.oDialogEdit);
-			}
-			this.oDialogEdit.open();
-			this.oDialogEdit.setBindingContext(oEvent.getSource().getBindingContext());
-		},
-		
-		_updateMaterial: function(){
-			var sPath = this.oDialogEdit.getBindingContext().getPath();
-			this.getModel().update(sPath, {
-				MaterialText: this.oDialogEdit.getContent()[1].getValue(),
-				GroupID: this.oDialogEdit.getContent()[3].getValue(),
-				SubGroupID: this.oDialogEdit.getContent()[5].getValue()
-			}, {
-				success: function(e){
-					MessageToast.show("Success");
-				},
-				error: function(e){
-					MessageToast.show("ERROR!");
-				}
-			
-			});
-			this.oDialogEdit.getContent()[1].setValue("");
-			this.oDialogEdit.getContent()[3].setValue("");
-			this.oDialogEdit.getContent()[5].setValue("");
-		},
-
+    		if(!this.oDialogEdit){
+        	this.oDialogEdit = new Dialog({
+          title: "Edit",
+          type: "Message",
+          contentWidth: "25rem",
+          content: [
+            new sap.m.Label({
+              text: "MaterialText",
+              labelFor: "MaterialTextEdit"
+            }),
+            new sap.m.Input("MaterialTextEdit", {
+              width: "100%",
+              value: "{MaterialText}"
+            }),
+            new sap.m.Label({
+              text: "GroupID",
+              labelFor: "GroupIDEdit"
+            }),
+            new sap.m.Input("GroupIDEdit", {
+              width: "100%",
+              value: "{GroupID}"
+            }),
+            new sap.m.Label({
+              text: "SubGroupID",
+              labelFor: "SuGroupIDEdit"
+            }),
+            new sap.m.Input("SubGroupIDEdit", {
+              width: "100%",
+              value: "{SubGroupID}"
+            })
+          ],
+          beginButton: new sap.m.Button({
+            type: "Emphasized",
+            text: "Edit",
+            press: function() {
+              this.oDialogEdit.close();
+            }.bind(this)
+          }),
+          endButton: new sap.m.Button({
+            text: "Cancel",
+            press: function() {
+              this.oDialogEdit.close();
+              this.oDialogEdit.getContent()[1].setValue("");
+              this.oDialogEdit.getContent()[3].setValue("");
+              this.oDialogEdit.getContent()[5].setValue("");
+            }.bind(this)
+          })
+      }).addStyleClass("sapUISizeCompact");
+    
+      this.getView().addDependent(this.oDialogEdit);
+      }
+      this.oDialogEdit.open();
+      this.oDialogEdit.setBindingContext(oEvent.getSource().getBindingContext());
+    },
+    
+    _updateMaterial: function(){
+      var sPath = this.oDialogEdit.getBindingContext().getPath();
+      this.getModel().update(sPath, {
+        MaterialText: this.oDialogEdit.getContent()[1].getValue(),
+        GroupID: this.oDialogEdit.getContent()[3].getValue(),
+        SubGroupID: this.oDialogEdit.getContent()[5].getValue()
+      }, {
+        success: function(e){
+          MessageToast.show("Success");
+        },
+        error: function(e){
+          MessageToast.show("ERROR!");
+        }
+      
+      });
+},
 		onPressDelete: function(oEvent) {
 			var sPath = oEvent.getParameter("listItem").getBindingContext().getPath();
 			this.getModel().remove(sPath);
