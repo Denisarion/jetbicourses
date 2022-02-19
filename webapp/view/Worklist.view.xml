@@ -1,69 +1,23 @@
-<mvc:View controllerName="zjblesson.Worklist.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
+<mvc:View controllerName="zjblesson.Worklist.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic"	
+xmlns:smartTable="sap.ui.comp.smarttable" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" >
 	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" class="sapUiNoContentPadding">
 		<semantic:titleHeading>
 			<Title text="{i18n>worklistTitle}"/>
 		</semantic:titleHeading>
+		<semantic:headerContent>
+			<smartFilterBar:SmartFilterBar id="smartFilterBar" entitySet="zjblessons_base_Materials" persistencyKey="pk_MaterialsSFB" liveMode="false"></smartFilterBar:SmartFilterBar>
+		</semantic:headerContent>
 		<semantic:content>
-			<Table id="table" width="auto" mode="Delete" items="{ path: '/zjblessons_base_Materials', sorter: { path: 'CreatedBy', group: true, descending: false } }"
-				noDataText="{worklistView>/tableNoDataText}" busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="true" growingThreshold="20"
-				growingScrollToLoad="true" updateFinished="onUpdateFinished" delete="onPressDelete">
-				<headerToolbar>
-					<Toolbar>
-						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
-						<ToolbarSpacer/>
-						<Button type="Emphasized" text="{i18n>tSayHello}" press="onPressSayHello" icon="sap-icon://globe"/>
-						<Button type="Ghost" text="{i18n>tCreate}" press="onPressCreate"/>
-						<Button type="Ghost" text="{i18n>tRefresh}" press="onPressRefresh"/>
-						<Button type="Ghost" text="{i18n>tReset}" press="onPressReset"/>
-						<Button type="Ghost" text="{i18n>tSubmit}" press="onPressSubmit"/>
-						<SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"></SearchField>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="nameColumn">
-						<Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameColumnMatDesc}"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameColumnCreatedBFN}"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameColumnCreatedBy}"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameColumnModifiedBy}"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameColumnGroupID}"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameColumnSubGroupID}"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameColumnCreated}"/>
-					</Column>
-					<Column>
-						<Text text="{i18n>nameActions}"/>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem highlight="{path: 'CreatedBy', formatter:'.formatter.Highlight'}" type="Navigation" press="onPress">
-						<cells>
-							<ObjectIdentifier title="{MaterialText}"/>
-							<Text text="{MaterialDescription}"/>
-							<Text text="{CreatedByFullName}"/>
-							<Text text="{CreatedBy}"/>
-							<Text text="{ModifiedBy}"/>
-							<Text text="{GroupID}"/>
-							<Text text="{SubGroupID}"/>
-							<Text text="{path: 'Created', type: 'sap.ui.model.type.DateTime', formatOptions: { pattern: 'HH:mm dd/MM/yyyy'}}"/>
-							<Button press="onPressEdit"  icon="sap-icon://edit"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
+			<smartTable:SmartTable id="idSmartTableMaterials" entitySet="zjblessons_base_Materials" smartFilterID="smartFilterBar" useExportToExcel="true"
+			tableType="ResponsiveTable" useVariantManagment="true" placeToolarInTable="true" useTablePersonalisation="true" header="Materials" showRowCount="true"
+			persistencyKey="pk_MaterialsSF" enableAutoBinding="true" showFullScreenButton="true"  ignoreFromPersonalisation="Language, MaterialID, Version, IntegrationID">
+				<Table id="table" mode="Delete" width="auto" noDataText="{worklistView>tablenoDataText}"
+				busyIndicatorDelay="{worklistView>tableBusyDelay}" growing="true" growingScrollToLoad="true" updateFinished="onUpdateFinished" delete="onPressDelete">
+					<items>
+						<ColumnListItem type="Navigation" press="onPress"></ColumnListItem>
+					</items>
+				</Table>
+			</smartTable:SmartTable>
 		</semantic:content>
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>

@@ -24,10 +24,10 @@
     "/webapp/view/ObjectNotFound.view.xml": {
       "entitySet": "UNBINDKEY"
     },
-    "/webapp/view/Worklist.view.xml": {
+    "/webapp/view/Object.view.xml": {
       "entitySet": "zjblessons_base_Materials"
     },
-    "/webapp/view/Object.view.xml": {
+    "/webapp/view/Worklist.view.xml.txt": {
       "entitySet": "zjblessons_base_Materials"
     }
   },
