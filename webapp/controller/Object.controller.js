@@ -33,7 +33,8 @@ sap.ui.define([
 				var iOriginalBusyDelay,
 					oViewModel = new JSONModel({
 						busy : true,
-						delay : 0
+						delay : 0,
+						editMode: false
 					});
 
 				this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
@@ -71,14 +72,8 @@ sap.ui.define([
 				this.getModel("objectView").setProperty("/editMode", false);
 				var oMaterial = this.getModel("json").getProperty("/");
 				this.getModel("objectView").setProperty("/elementalMaterial", Object.assign({}, oMaterial));
-				var sPath = "/zjblessons_base_Materials('" + oMaterial.MaterialID + "')";
-				this.getModel().update(sPath, {
-					MaterialText: oMaterial.MaterialText,
-					GroupID: oMaterial.GroupID,
-					SubGroupID: oMaterial.SubGroupID,
-					MaterialDescription: oMaterial.MaterialDescription
-					
-				}, {
+				this.getModel().submitChanges(
+				 {
 					success: function(e){
 						MessageToast.show("Success");
 					},
@@ -88,9 +83,7 @@ sap.ui.define([
 				});
 			},	
 			onPressCancel: function(){
-				this.getModel("objectView").setProperty("/editMode", false);
-				var oElementalMaterial = this.getModel("objectView").getProperty("/elementalMaterial");
-				this.getModel("json").setData(oElementalMaterial);
+				this.getModel().resetChanges();
 			},
 			/**	
 			 * Event handler  for navigating back.

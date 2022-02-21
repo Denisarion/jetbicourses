@@ -1,26 +1,68 @@
-<mvc:View controllerName="zjblesson.Worklist.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
+<mvc:View controllerName="zjblesson.Worklist.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic"
+	xmlns:core="sap.ui.core">
 	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
 		<semantic:titleHeading>
 			<VBox>
-			<Title text="{json>/MaterialText}" visible="{= !${objectView>/editMode}}"/>
-			<Input value="{json>/MaterialText}" visible="{jbjectView>/editMode}"/>
+				<Title text="{i18n>tDetailPage}, {i18n>tMode}: {= ${objectView>/editMode} ? ${i18n>tEdit} : ${i18n>tView}}" />
 			</VBox>		
 		</semantic:titleHeading>
 		<semantic:content>
-			<VBox visible = "true">
-				<Title visible="{= !${objectView>/editMode}}" text="{= ${json>/MaterialDescription} === null ? 'No Description' : ${json>/MaterialDescription}}"/>
-				<Input value="{json>/MaterialDescriprtion}" visible="{objectView>editMode}"/>
-				<Title visible="{= !${objectView>/editMode}}" text="{= ${json>/GroupID} === null ? 'No GroupID' : ${json>/GroupID}}"/>
-				<Input value="{json>/GroupID}" visible="{objectView>editMode}"/>
-				<Title visible="{= !${objectView>/editMode}}" text="{= ${json>/SubGroupID} === null ? 'No SubGroupID' : ${json>/SubGroupID}}"/>
-				<Input value="{json>/SubGroupID}" visible="{objectView>editMode}"/>
-			</VBox>
+			<List headerText="{i18n>tChangeParamsofMaterials}.  {i18n>nameMaterialID}: {MaterialID}, {i18n>tableNameColumnTitle}: {MaterialText}">
+				<InputListItem label="{i18n>lEnableChanging}">
+					<Switch state="{objectView>/editMode}" type="AcceptReject"/>
+				</InputListItem>
+				
+				<InputListItem label="{i18n>tableNameColumnTitle}" visible="{= !${objectView>/editMode}}">
+					<Text id="textMaterialText" text="{MaterialText}" visible="{= !${objectView>/editMode}}"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnMatDesc}" visible="{= !${objectView>/editMode}}">
+					<Text id="textMaterialDescription" text="{MaterialDescription}" visible="{= !${objectView>/editMode}}"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnRegion}" visible="{= !${objectView>/editMode}}">
+					<Text id="textRegion" text="{RegionText}" visible="{= !${objectView>/editMode}}"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnPlant}" visible="{= !${objectView>/editMode}}">
+					<Text id="textPlant" text="{PlantText}" visible="{= !${objectView>/editMode}}"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnCreated}" visible="{= !${objectView>/editMode}}">
+					<Text id="textCreated" text="{path: 'Created', type:'sap.ui.model.type.DateTime', formatOptions:{style: 'short'}}"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnModifiedBy}" visible="{= !${objectView>/editMode}}">
+					<Text id="textModified" text="{parts: ['Modified', 'ModifiedByFullName'], formatter: '.formatter.formatModified'}"/>
+				</InputListItem>
+				
+				
+				<InputListItem label="{i18n>tableNameColumnTitle}" visible="{objectView>/editMode}">
+					<Input id="inputMaterialText" width="300px" value="{MaterialText}" valueLiveUpdate="true"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnMatDesc}" visible="{objectView>/editMode}">
+					<Input id="inputMaterialDescription" width="300px" 
+					value="{MaterialDescription}" valueLiveUpdate="true"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnRegion}" visible="{objectView>/editMode}">
+					<Select id="SelectRegions" forceSelection="false" selectedKey="{RegionID}"
+					items="{path: '/zjblessons_base_Regions', sorter:{path: 'RegionText', descending: false}}">
+					<core:Item key="{RegionID}" text="{RegionText}"/>	
+					</Select>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnPlant}" visible="{objectView>/editMode}">
+					<Select id="SelectPlants" forceSelection="false" selectedKey="{PlantID}"
+					items="{path: '/zjblessons_base_Plants', sorter:{path: 'PlantText', descending: false}}">
+					<core:Item key="{PlantID}" text="{PlantText}"/>	
+					</Select>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnCreated}" visible="{objectView>/editMode}">
+					<Text id="textCreatedEdit" text="{path: 'Created', type:'sap.ui.model.type.DateTime', formatOptions:{style: 'short'}}"/>
+				</InputListItem>
+				<InputListItem label="{i18n>nameColumnModifiedBy}" visible="{objectView>/editMode}">
+					<Text id="textModifiedEdit" text="{parts: ['Modified', 'ModifiedByFullName'], formatter: '.formatter.formatModified'}"/>
+				</InputListItem>
+			</List>
 		</semantic:content>
 		<semantic:titleCustomTextActions>
-			<Button visible="{= !${objectView>/editMode}}" text="Edit" press="onPressEdit"/>
-			<Button visible="{objectView>/editMode}" text="Save" press="onPressSave"/>
-			<Button visible="{objectView>/editMode}" text="Cancel" press="onPressCancel"/>
+			<Button visible="{= ${objectView>/editMode}}" text="{i18n>tSave}" press="onPressSave"/>
+			<Button visible="{= ${objectView>/editMode}}" text="{i18n>tCancel}" press="onPressCancel"/>
 		</semantic:titleCustomTextActions>
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>

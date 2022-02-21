@@ -1,5 +1,6 @@
 sap.ui.define([
-	] , function () {
+"sap/ui/core/format/DateFormat"
+	] , function (dateFormat) {
 		"use strict";
 
 		return {
@@ -20,6 +21,13 @@ sap.ui.define([
 				if(CreatedBy === "D1B1000034") {
 					return "Success";
 				}
+			},
+			formatModified: function(dDate, sFullName){
+				var oDateFormat= dateFormat.getDateTimeInstance({
+					pattern: "yyyy.MM.dd HH:mm"
+				});
+				var sDate = oDateFormat.format(dDate);
+				return `${this.getModel("i18n").getResourceBundle().getText("textModifiedEdit")} ${sFullName} ${this.getModel("i18n").getResourceBundle().getText("textModifiedEditOn")} ${sDate}`
 			}
 		};
 
