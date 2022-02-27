@@ -4,7 +4,7 @@ sap.ui.define([
 		"sap/ui/model/json/JSONModel",
 		"sap/ui/core/routing/History",
 		"zjblesson/Worklist/model/formatter",
-		"sap/m/MessageToast",
+		"sap/m/MessageToast"
 	], function (
 		BaseController,
 		JSONModel,
@@ -84,6 +84,10 @@ sap.ui.define([
 			},	
 			onPressCancel: function(){
 				this.getModel().resetChanges();
+			},
+			
+			onPressRefresh: function(){
+			this.getModel().refresh(true); 
 			},
 			/**	
 			 * Event handler  for navigating back.

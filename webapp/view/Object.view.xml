@@ -1,14 +1,19 @@
 <mvc:View controllerName="zjblesson.Worklist.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic"
-	xmlns:core="sap.ui.core">
+	xmlns:core="sap.ui.core" xmlns:smartform="sap.ui.comp.smartform" xmlns:smartfield="sap.ui.comp.smartfield">
 	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
 		<semantic:titleHeading>
-			<VBox>
+			<HBox>
+				<Button type="Back" tooltip="{i18n>bBack}" enabled="{= !${objectView>/editMode}}" press="onNavBack" />
 				<Title text="{i18n>tDetailPage}, {i18n>tMode}: {= ${objectView>/editMode} ? ${i18n>tEdit} : ${i18n>tView}}" />
-			</VBox>		
+			</HBox>		
 		</semantic:titleHeading>
 		<semantic:content>
-			<List headerText="{i18n>tChangeParamsofMaterials}.  {i18n>nameMaterialID}: {MaterialID}, {i18n>tableNameColumnTitle}: {MaterialText}">
+			<IconTabBar id="IconTabBar" stretchContentHeight="false" backgroundDesign="Transparent" applyContentPadding="false"
+			select="onSelectIconTabBar" headerMode="Inline" expandable="true" expanded="true">
+				<items>
+					<IconTabFilter icon="{i18n>iList}" text="{i18n>LList}" >
+							<List headerText="{i18n>tChangeParamsofMaterials}.  {i18n>nameMaterialID}: {MaterialID}, {i18n>tableNameColumnTitle}: {MaterialText}">
 				<InputListItem label="{i18n>lEnableChanging}">
 					<Switch state="{objectView>/editMode}" type="AcceptReject"/>
 				</InputListItem>
@@ -59,6 +64,61 @@
 					<Text id="textModifiedEdit" text="{parts: ['Modified', 'ModifiedByFullName'], formatter: '.formatter.formatModified'}"/>
 				</InputListItem>
 			</List>
+					</IconTabFilter>
+					<IconTabFilter icon="{i18n>iForm}" text="{i18n>LForm}" >
+						<smartform:SmartForm id="sMaterials" useHorizontalLayout="false" editable="{objectView>/editMode}"
+						editTogglable="true" editToggled="onEditToggled">
+							<smartform:customToolbar>
+								<OverflowToolbar design="Transparent">
+									<Title text="{i18n>tChangeParamsofMaterials}.  {i18n>nameMaterialID}: {MaterialID}, {i18n>tableNameColumnTitle}: {MaterialText}"/>
+									<ToolbarSpacer/>
+									<OverflowToolbarButton tooltip="{i18n>tRefresh}" icon="{i18n>iRefresh}" press="onPressRefresh"/>
+								</OverflowToolbar>
+							</smartform:customToolbar>
+							<smartform:layout>
+								<smartform:ColumnLayout columnsM="2" columnsL="3" columnsXL="4"/>
+							</smartform:layout>
+							<smartform:Group label="{i18n>MainInf}">
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{MaterialText}" visible="true" mandatory="true"/>
+								</smartform:GroupElement>
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{MaterialDescription}" visible="true" mandatory="true"/>
+								</smartform:GroupElement>
+							</smartform:Group>
+							<smartform:Group label="{i18n>RegInf}">
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{RegionText}" visible="true"/>
+									<smartfield:SmartField value="{RegionID}" visible="false"/>
+								</smartform:GroupElement>
+							</smartform:Group>
+							<smartform:Group label="{i18n>PlantInf}">
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{PlantText}" visible="true"/>
+									<smartfield:SmartField value="{PlantID}" visible="false"/>
+								</smartform:GroupElement>
+							</smartform:Group>
+							<smartform:Group label="{i18n>CreInf}">
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{Created}" visible="true" editable="false"/>
+								</smartform:GroupElement>
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{CreatedByFullName}" visible="true" editable="false"/>
+								</smartform:GroupElement>
+							</smartform:Group>
+							<smartform:Group label="{i18n>ModInf}">
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{Modified}" visible="true" editable="false"/>
+								</smartform:GroupElement>
+								<smartform:GroupElement>
+									<smartfield:SmartField value="{ModifiedByFullName}" visible="true" editable="false"/>
+								</smartform:GroupElement>
+							</smartform:Group>
+						</smartform:SmartForm>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		
 		</semantic:content>
 		<semantic:titleCustomTextActions>
 			<Button visible="{= ${objectView>/editMode}}" text="{i18n>tSave}" press="onPressSave"/>
